@@ -1,0 +1,29 @@
+# Byte-compiled / cache files
+__pycache__/
+*.py[cod]
+*.ipynb_checkpoints/
+
+# Environment
+.env
+venv/
+.venv/
+
+# Data & Models
+data/
+models/
+*.csv
+*.tsv
+*.pkl
+*.pt
+*.tar
+*.h5
+
+# Output files
+*.log
+*.out
+
+# OS & editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
