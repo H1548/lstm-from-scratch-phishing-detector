@@ -20,7 +20,7 @@ eos_token = sp.eos_id()
 dataset_path = 'Dataset\Phishing emails - Classification\PhishingEmails3.csv'
 
 
-train_data, val_data, test_data = load_data(dataset_path)
+train_data, val_data = load_data(dataset_path)
 
 
 def tokenize_data(data):
@@ -63,7 +63,8 @@ def sigmoid(x):
         top[neg_mask] = z[neg_mask]
         return top / (1 + z)
 
-def estimate_loss():
+@torch.no_grad()
+def estimate_loss(model):
     out = {}
     for split in ['train', 'val']:
         losses = torch.zeros(eval_iters)
@@ -74,6 +75,7 @@ def estimate_loss():
         out[split] = losses.mean()
     return out
 
+@torch.no_grad()
 def get_accuracy(model):
     
     x,y_true = get_batch('val')

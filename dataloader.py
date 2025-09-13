@@ -6,14 +6,9 @@ import torch
 import torch.nn.functional as F
 from utils.py import tokenize_data
 
-def load_data(dataset, tokenizer_path):
-    sp = spm.SentencePieceProcessor()
-    sp.load(tokenizer_path)
+def load_data(dataset):
 
-    vocab_size = sp.get_piece_size()
-    Pad_token = sp.pad_id()
-    bos_token = sp.bos_id()
-    eos_token = sp.eos_id()
+    
 
     df= pd.read_csv(dataset, delimiter = ';', names=['email', 'label'])
 
@@ -35,7 +30,7 @@ def load_data(dataset, tokenizer_path):
     random.shuffle(copy_data)
     n = int(0.8 * len(paired_data))
     train_data = copy_data[:n]
-    val_data = copy_data[n:133000]
-    test_data = copy_data[133000:135000]
+    val_data = copy_data[n:]
+    
 
-    return train_data, val_data, test_data
+    return train_data, val_data
