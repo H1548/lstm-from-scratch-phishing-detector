@@ -21,3 +21,18 @@ cd lstm-from-scratch-phishing-detector
 ## Install dependencies
 <pre>pip install -r requirements.txt</pre>
 
+# Usage
+
+## Train Model
+
+```bash
+python train.py
+```
+## Evaluate model
+```bash
+python modeltest.py
+```
+## Prompt model
+```bash
+python prompter.py
+```

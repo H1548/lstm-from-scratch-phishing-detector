@@ -1,8 +1,11 @@
 import torch
 import sentencepiece as spm
 import torch.nn.functional as F
-from model.py import LSTM
-from utils.py import estimate_loss, get_accuracy, get_batch
+from model import LSTM
+from dataloader import load_data
+from utils import estimate_loss, get_accuracy, get_batch
+
+device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 sp = spm.SentencePieceProcessor()
 sp.load('m.model')
@@ -18,7 +21,14 @@ learning_rate = 1e-3
 eval_iters = 50
 model_checkpoint = 10
 
+dataset_path = 'Dataset\Phishing emails - Classification\PhishingEmails3.csv'
+
+
+train_data, val_data = load_data(dataset_path)
+
+
 model = LSTM(embd_dim, hidden_dims, num_classes, vocab_size, batch_size)
+model.to(device)
 
 configs = {}
 for p,w in model.params.items():

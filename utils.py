@@ -2,7 +2,7 @@ import sentencepiece as spm
 import torch
 import torch.nn.functional as F
 from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_score
-from dataloader.py import load_data
+
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -17,10 +17,6 @@ vocab_size = sp.get_piece_size()
 Pad_token = sp.pad_id()
 bos_token = sp.bos_id()
 eos_token = sp.eos_id()
-dataset_path = 'Dataset\Phishing emails - Classification\PhishingEmails3.csv'
-
-
-train_data, val_data = load_data(dataset_path)
 
 
 def tokenize_data(data):
@@ -34,7 +30,7 @@ def pad_sequence(sequence, max_length, pad_token_id):
     return sequence + [pad_token_id] * (max_length - len(sequence))
 
 
-def get_batch(split):
+def get_batch(split, train_data, val_data):
     data = train_data if split == 'train' else val_data
     ix = torch.randint(len(data)-block_size, size=(batch_size,))
 
@@ -70,7 +66,7 @@ def estimate_loss(model):
         losses = torch.zeros(eval_iters)
         for k in range(eval_iters):
             X, Y = get_batch(split)
-            loss, _ = model.loss(X,Y)
+            loss, _, _= model.loss(X,Y)
             losses[k] = loss.item()
         out[split] = losses.mean()
     return out
@@ -79,7 +75,7 @@ def estimate_loss(model):
 def get_accuracy(model):
     
     x,y_true = get_batch('val')
-    pred,_   = model.loss(x)
+    pred,_ ,_  = model.loss(x)
     for i in range(pred.shape[0]):
         pred[i] = 1 if pred[i] >= threshold else 0
     pred = pred.cpu().numpy()
@@ -89,3 +85,19 @@ def get_accuracy(model):
     recall = recall_score(y_true, pred)
     precision = precision_score(y_true, pred)
     return accuracy, f1, recall, precision
+
+def get_testbatch(data, ix):
+
+    x, y = [], []
+
+    for i in ix:
+        input_i, output_i = data[i]
+        pad_input_i = pad_sequence(input_i, block_size,Pad_token)
+        x.append(torch.tensor(pad_input_i, dtype=torch.long))
+        y.append(torch.tensor(output_i, dtype = torch.long))
+        
+
+    x = torch.stack(x).to(device)
+    y = torch.stack(y).to(device)
+
+    return x, y

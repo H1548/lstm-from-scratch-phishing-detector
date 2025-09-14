@@ -4,9 +4,9 @@ import sentencepiece as spm
 import random
 import torch
 import torch.nn.functional as F
-from utils.py import tokenize_data
+from utils import tokenize_data
 
-def load_data(dataset):
+def load_testdata(dataset):
 
     df= pd.read_csv(dataset, delimiter = ';', names=['email', 'label'])
 
@@ -25,10 +25,7 @@ def load_data(dataset):
 
     paired_data = list(zip(new_data,numerical_labels))
     copy_data = paired_data.copy()
-    random.shuffle(copy_data)
-    n = int(0.8 * len(paired_data))
-    train_data = copy_data[:n]
-    val_data = copy_data[n:]
+    test_data = copy_data
     
 
-    return train_data, val_data
+    return test_data

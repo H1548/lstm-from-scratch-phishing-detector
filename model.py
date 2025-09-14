@@ -296,10 +296,10 @@ class LSTM():
             grads[g].zero_() 
         return grads
 
-    def sample(self,x):
-        # x = [bos_token] + sp.encode_as_ids(x) + [eos_token]
-        # tok_x = torch.tensor(pad_sequence(x, block_size, Pad_token)).unsqueeze(0)
-        mask = x != Pad_token 
+    def sample(self,x,bos_token, eos_token, pad_sequence, block_size):
+        x = [bos_token] + sp.encode_as_ids(x) + [eos_token]
+        tok_x = torch.tensor(pad_sequence(x, block_size, Pad_token)).unsqueeze(0)
+        mask = tok_x != Pad_token 
         W_embed = self.params['W_embed']
         Wx, Wh, b = self.params['Wxh'], self.params['Whh'], self.params['b']
         W_out, b_out = self.params['W_out'], self.params['b_out']
