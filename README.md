@@ -36,3 +36,28 @@ python modeltest.py
 ```bash
 python prompter.py
 ```
+
+# Results
+Have not tested the model's performance, have only got it to work, it trains the loss score seems to go down in a stable way. 
+Furthermore, I have prompted the model in a local jupyter notebook and seems to be acccurate. Future work on this project will be to rigorously evaluate this model. However, the main goal was to educate myself in builidng a deep-learning model from scratch using calculus for backprop etc.  
+
+# Project Structure
+
+```text
+.
+|-- Dataset/              # Folder containing train dataset and testing dataset
+|-- Results/              # All the results after modeltest.py has run, goes into this folder 
+|-- .gitignore            # ignores certain file types
+|-- dataloader.py         # Script that loads training data
+|-- LICENSE               # License for usage
+|-- m.model               # SentencePiece Tokenizer
+|-- m.vocab               # Vocabulary from sentencepiece tokenizer  
+|-- model.py              # code for LSTM
+|-- modeltest.py          # Code that evaluates LSTM, dumps confusion matrix and classifcaiton report into Results folder
+|-- Prompter.py           # Script to prompt the LSTM model
+|-- README.md             # Documentation
+|-- requirements.txt      # Project Dependencies
+|-- testdataloader.py     # loads test data
+|-- train.py              # script trains the LSTM
+|-- utils.py              # Utility functions
+```
