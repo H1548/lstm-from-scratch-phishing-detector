@@ -61,3 +61,11 @@ Furthermore, I have prompted the model in a local jupyter notebook and seems to 
 |-- train.py              # script trains the LSTM
 |-- utils.py              # Utility functions
 ```
+
+# Roadmap
+
+The next steps of this project is to:
+- Test and evaluate the LSTMs performance
+- log results
+- conduct hyperparameter tuning to improve model's performance 
+- iterate this process till satisfied 
